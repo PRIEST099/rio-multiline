@@ -27,8 +27,10 @@ const buildTransporter = () => {
 };
 
 export const sendEmailHandler = async (req, res) => {
+  console.log('[emailRoutes] sendEmailHandler called with formType:', req.body?.formType);
   const { formType, data, attachments = [] } = req.body || {};
   if (!formType || !data) {
+    console.error('[emailRoutes] Missing required fields - formType:', formType, 'data:', !!data);
     return res.status(400).json({ success: false, message: "formType and data are required" });
   }
 
@@ -112,15 +114,18 @@ export const sendEmailHandler = async (req, res) => {
       recordId: insertedId,
     });
   } catch (error) {
-    console.error("Email send failed", error);
+    console.error("[emailRoutes] Email send failed:", error);
+    console.error("[emailRoutes] Error stack:", error.stack);
     return res.status(500).json({ success: false, message: error?.message || "Email send failed" });
   }
 };
 
 export const testWhatsAppHandler = async (req, res) => {
+  console.log('[emailRoutes] testWhatsAppHandler called');
   const { formType = "test" } = req.body || {};
 
   if (!config.whatsapp.phoneNumberId || !config.whatsapp.accessToken || !config.admin.whatsappNumber) {
+    console.error('[emailRoutes] WhatsApp configuration missing');
     return res.status(400).json({ success: false, message: "WhatsApp admin configuration missing" });
   }
 
@@ -146,7 +151,8 @@ export const testWhatsAppHandler = async (req, res) => {
     }
     return res.status(200).json({ success: true, message: status });
   } catch (error) {
-    console.error("WhatsApp test send failed", error);
+    console.error("[emailRoutes] WhatsApp test send failed:", error);
+    console.error("[emailRoutes] Error stack:", error.stack);
     return res.status(500).json({ success: false, message: error?.message || "WhatsApp send failed" });
   }
 };

@@ -344,7 +344,11 @@ const FlightTicketing = () => {
       };
 
       const result = await sendFlightEmail(payload);
-      if (!result.success) throw new Error(result.error || "Submission failed");
+      if (!result.success) {
+        console.error('[FlightTicketing] Email submission failed:', result.error);
+        throw new Error(result.error || "Submission failed");
+      }
+      console.log('[FlightTicketing] Email submitted successfully:', result.data);
       setSubmissionInfo({
         recordPath: result.data?.recordPath,
         recordUrl: result.data?.recordApiUrl || result.data?.recordUrl,
@@ -353,6 +357,7 @@ const FlightTicketing = () => {
       });
       setSubmitted(true);
     } catch (error) {
+      console.error('[FlightTicketing] Error during form submission:', error);
       setErrors({ submit: error.message });
     } finally {
       setSubmitting(false);
@@ -406,7 +411,11 @@ const FlightTicketing = () => {
       };
 
       const result = await sendFlightEmail(payload);
-      if (!result.success) throw new Error(result.error || "Submission failed");
+      if (!result.success) {
+        console.error('[FlightTicketing] Test email submission failed:', result.error);
+        throw new Error(result.error || "Submission failed");
+      }
+      console.log('[FlightTicketing] Test email submitted successfully:', result.data);
       setSubmissionInfo({
         recordPath: result.data?.recordPath,
         recordUrl: result.data?.recordApiUrl || result.data?.recordUrl,
@@ -415,6 +424,7 @@ const FlightTicketing = () => {
       });
       setSubmitted(true);
     } catch (error) {
+      console.error('[FlightTicketing] Error during test submission:', error);
       setErrors({ submit: error.message });
     } finally {
       setSendingTest(false);

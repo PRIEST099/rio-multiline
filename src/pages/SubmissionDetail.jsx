@@ -29,18 +29,23 @@ const SubmissionDetail = () => {
   useEffect(() => {
     const fetchOne = async () => {
       if (!apiBase) {
+        console.error('[SubmissionDetail] API base URL is not configured');
         setError("API base URL is not configured");
         setLoading(false);
         return;
       }
       try {
+        console.log('[SubmissionDetail] Fetching submission:', formType, id);
         const res = await fetch(`${apiBase}/admin/submissions/${formType}/${id}`);
         const data = await res.json();
         if (!res.ok || data.success === false) {
+          console.error('[SubmissionDetail] Failed to load submission - status:', res.status, 'data:', data);
           throw new Error(data.message || "Failed to load submission");
         }
+        console.log('[SubmissionDetail] Submission loaded successfully');
         setSubmission(data.submission || null);
       } catch (err) {
+        console.error('[SubmissionDetail] Error fetching submission:', err);
         setError(err.message || "Failed to load submission");
       } finally {
         setLoading(false);

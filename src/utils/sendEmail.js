@@ -18,8 +18,12 @@ const filesToBase64 = async (files) => {
 };
 
 const postEmail = async (payload) => {
-  if (!API_URL) return { success: false, error: "API URL not configured" };
+  if (!API_URL) {
+    console.error('[sendEmail] API URL not configured');
+    return { success: false, error: "API URL not configured" };
+  }
   try {
+    console.log('[sendEmail] Sending email request to:', API_URL);
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -27,10 +31,13 @@ const postEmail = async (payload) => {
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok || data.success === false) {
+      console.error('[sendEmail] Email sending failed - status:', res.status, 'data:', data);
       throw new Error(data.message || "Email sending failed");
     }
+    console.log('[sendEmail] Email sent successfully');
     return { success: true, data };
   } catch (error) {
+    console.error('[sendEmail] Error during email send:', error);
     return { success: false, error: error.message || "Email sending failed" };
   }
 };
@@ -45,8 +52,12 @@ export const sendLogisticsEmail = async (formData) => {
 };
 
 export const sendWhatsAppTest = async (formType = "test") => {
-  if (!API_WHATSAPP_TEST_URL) return { success: false, error: "API URL not configured" };
+  if (!API_WHATSAPP_TEST_URL) {
+    console.error('[sendWhatsAppTest] API URL not configured');
+    return { success: false, error: "API URL not configured" };
+  }
   try {
+    console.log('[sendWhatsAppTest] Sending WhatsApp test request to:', API_WHATSAPP_TEST_URL);
     const res = await fetch(API_WHATSAPP_TEST_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -54,10 +65,13 @@ export const sendWhatsAppTest = async (formType = "test") => {
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok || data.success === false) {
+      console.error('[sendWhatsAppTest] WhatsApp test failed - status:', res.status, 'data:', data);
       throw new Error(data.message || "WhatsApp test failed");
     }
+    console.log('[sendWhatsAppTest] WhatsApp test sent successfully');
     return { success: true };
   } catch (error) {
+    console.error('[sendWhatsAppTest] Error during WhatsApp test:', error);
     return { success: false, error: error.message || "WhatsApp test failed" };
   }
 };

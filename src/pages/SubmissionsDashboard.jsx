@@ -27,6 +27,7 @@ const SubmissionsDashboard = () => {
 
   const fetchData = async (ft) => {
     if (!apiBase) {
+      console.error('[SubmissionsDashboard] API base URL is not configured');
       setError("API base URL is not configured");
       setLoading(false);
       return;
@@ -34,14 +35,18 @@ const SubmissionsDashboard = () => {
     setLoading(true);
     setError("");
     try {
+      console.log('[SubmissionsDashboard] Fetching submissions for formType:', ft);
       const res = await fetch(`${apiBase}/admin/submissions?formType=${ft}`);
       const data = await res.json();
       if (!res.ok || data.success === false) {
+        console.error('[SubmissionsDashboard] Failed to load submissions - status:', res.status, 'data:', data);
         throw new Error(data.message || "Failed to load submissions");
       }
+      console.log('[SubmissionsDashboard] Submissions loaded successfully:', data.count || 0);
       setSubmissions(data.submissions || []);
       setTotalCount(data.count || (data.submissions || []).length || 0);
     } catch (err) {
+      console.error('[SubmissionsDashboard] Error fetching submissions:', err);
       setError(err.message || "Failed to load submissions");
       setSubmissions([]);
       setTotalCount(0);

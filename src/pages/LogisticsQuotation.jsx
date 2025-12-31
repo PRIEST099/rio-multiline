@@ -229,7 +229,11 @@ const LogisticsQuotation = () => {
       };
 
       const result = await sendLogisticsEmail(payload);
-      if (!result.success) throw new Error(result.error || "Submission failed");
+      if (!result.success) {
+        console.error('[LogisticsQuotation] Email submission failed:', result.error);
+        throw new Error(result.error || "Submission failed");
+      }
+      console.log('[LogisticsQuotation] Email submitted successfully:', result.data);
       setSubmissionInfo({
         recordPath: result.data?.recordPath,
         recordUrl: result.data?.recordApiUrl || result.data?.recordUrl,
@@ -238,6 +242,7 @@ const LogisticsQuotation = () => {
       });
       setSubmitted(true);
     } catch (error) {
+      console.error('[LogisticsQuotation] Error during form submission:', error);
       setErrors({ submit: error.message });
     } finally {
       setSubmitting(false);
