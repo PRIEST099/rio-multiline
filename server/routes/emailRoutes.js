@@ -1,4 +1,3 @@
-import { Router } from "express";
 import nodemailer from "nodemailer";
 import { ObjectId } from "mongodb";
 import { config } from "../config/env.js";
@@ -10,8 +9,6 @@ import {
   buildLogisticsAdminParams,
 } from "../services/emailTemplates.js";
 import { attemptWhatsAppTemplate } from "../services/whatsapp.js";
-
-const router = Router();
 
 const buildTransporter = () => {
   const { host, port, user, pass, secure } = config.smtp;
@@ -124,8 +121,16 @@ export const testWhatsAppHandler = async (req, res) => {
   console.log('[emailRoutes] testWhatsAppHandler called');
   const { formType = "test" } = req.body || {};
 
-  if (!config.whatsapp.phoneNumberId || !config.whatsapp.accessToken || !config.admin.whatsappNumber) {
-    console.error('[emailRoutes] WhatsApp configuration missing');
+  const hasPhoneNumber = Boolean(config.whatsapp.phoneNumberId);
+  const hasAccessToken = Boolean(config.whatsapp.accessToken);
+  const hasAdminNumber = Boolean(config.admin.whatsappNumber);
+
+  if (!hasPhoneNumber || !hasAccessToken || !hasAdminNumber) {
+    console.error('[emailRoutes] WhatsApp configuration missing', {
+      hasPhoneNumber,
+      hasAccessToken,
+      hasAdminNumber,
+    });
     return res.status(400).json({ success: false, message: "WhatsApp admin configuration missing" });
   }
 
@@ -136,6 +141,7 @@ export const testWhatsAppHandler = async (req, res) => {
     });
     const templateName = config.whatsapp.testTemplate;
     if (!templateName) {
+      console.error('[whatsapp:test] Missing WHATSAPP_TEST_TEMPLATE');
       return res.status(400).json({ success: false, message: "WHATSAPP_TEST_TEMPLATE is not configured" });
     }
     const result = await attemptWhatsAppTemplate({
@@ -147,7 +153,8 @@ export const testWhatsAppHandler = async (req, res) => {
     const status = result.success ? `WhatsApp test message sent (${templateName})` : result.message;
     console.log("[whatsapp:test] template status", { to: config.admin.whatsappNumber, templateName, status });
     if (!result.success) {
-      return res.status(500).json({ success: false, message: status });
+      console.error('[whatsapp:test] template send failed', { status });
+      return res.status(502).json({ success: false, message: status || "WhatsApp send failed" });
     }
     return res.status(200).json({ success: true, message: status });
   } catch (error) {
@@ -157,7 +164,3 @@ export const testWhatsAppHandler = async (req, res) => {
   }
 };
 
-router.post("/api/send-email", sendEmailHandler);
-router.post("/api/test-whatsapp", testWhatsAppHandler);
-
-export default router;

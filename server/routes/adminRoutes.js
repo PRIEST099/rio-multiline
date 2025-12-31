@@ -1,8 +1,5 @@
-import { Router } from "express";
 import { ObjectId } from "mongodb";
 import { getDb } from "../config/db.js";
-
-const router = Router();
 
 export const listSubmissionsHandler = async (req, res) => {
   console.log('[adminRoutes] listSubmissionsHandler called with formType:', req.query.formType);
@@ -55,7 +52,3 @@ export const getSubmissionHandler = async (req, res) => {
   }
 };
 
-router.get("/admin/submissions", listSubmissionsHandler);
-router.get("/admin/submissions/:formType/:id", getSubmissionHandler);
-
-export default router;
