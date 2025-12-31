@@ -1,0 +1,99 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #5b79f1aa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #f2782baa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #475569;
+}
+
+/* Glass modal control styling (inputs) */
+.glass-modal input,
+.glass-modal select,
+.glass-modal textarea {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(203, 213, 225, 0.6);
+  color: #0F172A;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+}
+
+.glass-modal input:focus,
+.glass-modal select:focus,
+.glass-modal textarea:focus {
+  outline: none;
+  border-color: #5B79F1;
+  box-shadow: 0 0 0 3px rgba(91, 121, 241, 0.25);
+}
+
+/* Modal animations (Radix data-state aware) */
+@keyframes modalOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalOverlayOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes modalCardIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes modalCardOut {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to { opacity: 0; transform: translateY(12px) scale(0.97); }
+}
+
+.modal-overlay[data-state="open"],
+[data-state="open"] .modal-overlay {
+  animation: modalOverlayIn 220ms ease forwards;
+}
+
+.modal-overlay[data-state="closed"],
+[data-state="closed"] .modal-overlay {
+  animation: modalOverlayOut 160ms ease forwards;
+}
+
+[data-state="open"] .glass-modal {
+  animation: modalCardIn 240ms ease forwards;
+}
+
+[data-state="closed"] .glass-modal {
+  animation: modalCardOut 180ms ease forwards;
+}

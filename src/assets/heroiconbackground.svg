@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300">
+  <defs>
+    <style>
+      @keyframes truckMove {
+        from { transform: translateX(0); }
+        to { transform: translateX(150px); }
+      }
+      @keyframes planeMove {
+        0% { transform: translate(0, 0) rotate(0); }
+        50% { transform: translate(100px, -30px) rotate(5deg); }
+        100% { transform: translate(200px, 0) rotate(0); }
+      }
+      @keyframes fadeInOut {
+        0%, 100% { opacity: 0.7; }
+        50% { opacity: 1; }
+      }
+      .truck {
+        animation: truckMove 3s infinite linear;
+      }
+      .plane {
+        animation: planeMove 4s infinite ease-in-out;
+      }
+      .arrow {
+        animation: fadeInOut 2s infinite ease-in-out;
+      }
+      .icon {
+        fill: white;
+        stroke: white;
+        stroke-width: 2;
+      }
+    </style>
+  </defs>
+
+  <!-- Market Icon -->
+  <g class="icon" transform="translate(50,50)">
+    <path d="M0,0 h60 v70 h-60 z M10,15 h15 v15 h-15 z M35,15 h15 v15 h-15 z M10,40 h15 v15 h-15 z M35,40 h15 v15 h-15 z" fill="none"/>
+    <text x="30" y="95" fill="white" font-size="14" text-anchor="middle">Market</text>
+  </g>
+
+  <!-- Factory Icon -->
+  <g class="icon" transform="translate(50,150)">
+    <path d="M10,50 h40 v30 h-40 z M15,20 h8 v30 h-8 z M30,20 h8 v30 h-8 z M0,50 l30,-30 l30,30" fill="none"/>
+    <text x="30" y="95" fill="white" font-size="14" text-anchor="middle">Factory</text>
+  </g>
+
+  <!-- Trucks -->
+  <g class="truck" transform="translate(200,50)">
+    <path class="icon" d="M0,10 h30 v20 h-30 z M30,15 h15 v15 h-15 z M5,30 a5,5 0 1,0 0,-0.1 M35,30 a5,5 0 1,0 0,-0.1" fill="none"/>
+    <text x="20" y="45" fill="white" font-size="12" text-anchor="middle">Pickup A</text>
+  </g>
+
+  <!-- Warehouse -->
+  <g class="icon" transform="translate(400,100)">
+    <path d="M0,0 h80 v60 h-80 z M10,15 h60 v35 h-60 z M35,35 h10 v15 h-10 z" fill="none"/>
+    <text x="40" y="80" fill="white" font-size="14" text-anchor="middle">Warehouse</text>
+  </g>
+
+  <!-- Airplane -->
+  <g class="plane" transform="translate(600,80)">
+    <path class="icon" d="M0,15 l50,-15 l10,15 l-10,15 l-50,-15 z M20,8 h20 v14 h-20 z" fill="white"/>
+    <text x="25" y="45" fill="white" font-size="14" text-anchor="middle">Airplane</text>
+  </g>
+
+  <!-- Customer Clearance -->
+  <g class="icon" transform="translate(800,100)">
+    <path d="M0,0 h60 v70 h-60 z M10,15 h40 v40 h-40 z M20,25 l20,20 M40,25 l-20,20" fill="none"/>
+    <text x="30" y="85" fill="white" font-size="14" text-anchor="middle">Clearance</text>
+  </g>
+
+  <!-- Connecting Arrows -->
+  <g class="arrow">
+    <path d="M110,70 h80 M190,70 l-10,-5 l10,5 l-10,5" fill="none" stroke="white" stroke-width="2"/>
+    <path d="M110,170 h80 M190,170 l-10,-5 l10,5 l-10,5" fill="none" stroke="white" stroke-width="2"/>
+    <path d="M310,130 h80 M390,130 l-10,-5 l10,5 l-10,5" fill="none" stroke="white" stroke-width="2"/>
+    <path d="M480,130 h110 M590,130 l-10,-5 l10,5 l-10,5" fill="none" stroke="white" stroke-width="2"/>
+    <path d="M700,130 h90 M790,130 l-10,-5 l10,5 l-10,5" fill="none" stroke="white" stroke-width="2"/>
+  </g>
+</svg>
